@@ -15,12 +15,12 @@ sub new {
 }
 
 sub authenticate {
-    my ($self, $id, $passphrase) = @_;
-    if ( my $identity = $self->store->find_identity_by_id( $id ) ) {
+    my ($self, %params) = @_;
+    if ( my $identity = $self->store->find_identity_by_id( $params{'id'} ) ) {
         return Plack::Middleware::Authen::Agent->new(
             token    => $self->store->generate_token( $identity ),
             identity => $identity
-        ) if $identity->verify_passphrase( $passphrase );
+        ) if $identity->verify_passphrase( $params{'passphrase'} );
     }
 }
 

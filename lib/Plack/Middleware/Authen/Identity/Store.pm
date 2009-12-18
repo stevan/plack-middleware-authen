@@ -9,8 +9,8 @@ our $VERSION   = '0.01';
 our $AUTHORITY = 'cpan:STEVAN';
 
 use Plack::Util::Accessor qw[
-    identities
     hmac_key
+    identities
 ];
 
 sub new {
@@ -36,7 +36,15 @@ sub find_identity_by_token {
 
 sub generate_token {
     my ($self, $identity) = @_;
-    hmac_sha1_hex( $identity->id, $self->hmac_key )
+    hmac_sha1_hex(
+        $self->extract_identifier( $identity ),
+        $self->hmac_key
+    );
+}
+
+sub extract_identifier {
+    my ($self, $identity) = @_;
+    $identity->id
 }
 
 1;

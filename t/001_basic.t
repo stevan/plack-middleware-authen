@@ -28,7 +28,7 @@ isa_ok($authen, 'Plack::Middleware::Authen');
 
 # Authenticate from username/password
 
-my $agent = $authen->authenticate( 'stevan', 'secret' );
+my $agent = $authen->authenticate( id => 'stevan', passphrase => 'secret' );
 isa_ok($agent, 'Plack::Middleware::Authen::Agent');
 
 ok( $agent->token, '... got a token for my agent' );
